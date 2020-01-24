@@ -51,7 +51,7 @@ const material = new PhongMaterial({
 const DEFAULT_THEME = {
   buildingColor: [74, 80, 87],
   trailColor0: [253, 128, 150],
-  trailColor1: [23, 184, 190],
+  trailColor1: [255, 0, 255],
   material,
   effects: [lightingEffect]
 };
@@ -241,7 +241,7 @@ export default class Path extends Component {
     if (this.state.selected) {
       markers = this.state.selected[0]['path'].map(this._renderCityMarker)
     }
-    let styles = 'mapbox://styles/mapbox/dark-v9'
+    let styles = 'mapbox://styles/mapbox/streets-v11'
     // if(timeNow==="06:00:00"){
     //   styles='mapbox://styles/mapbox/light-v9'
     // }else if(timeNow==="18:00:00"){
@@ -282,8 +282,8 @@ export default class Path extends Component {
         <div>
           <img src={BG} alt="Loading BG" className="backgroundimage"></img>
         </div>
-        <div className="row" style={{ width: "100vw", overflowY: "hidden" }}>
-          <div className="col-md-9" style={{ height: "80vh", width: "90%", marginTop: "20px", paddingLeft: "10px" }}>
+        <div className="row" style={{ width: "100vw", overflowY: "hidden", paddingLeft: "40px" }}>
+          <div className="col-md-9" style={{ height: "80vh", width: "75%", marginTop: "10px", position: "relative" }}>
             <DeckGL
               layers={this._renderLayers()}
               effects={theme.effects}
@@ -291,7 +291,7 @@ export default class Path extends Component {
               viewState={viewState}
               controller={true}
             >
-              <MapView id="map" controller={true}>
+              <MapView id="map" marginLeft="20px" controller={true}>
                 <StaticMap
                   reuseMaps
                   mapStyle={mapStyle}
