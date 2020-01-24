@@ -10,7 +10,7 @@ export default class Dashboard extends Component {
           <img src={BG} alt="Loading BG" className="backgroundimage"></img>
         </div>
         <div className="HeadingContainer">
-          <h1 className="Heading">BuScOp</h1><br></br>
+          <h1 className="Heading">BU.SC.OP.</h1><br></br>
           <div style={{ display: "inline-block" }}>
             <h3 className="Heading2">by</h3>
           </div>
@@ -19,7 +19,7 @@ export default class Dashboard extends Component {
           </div>
         </div>
         <div style={{ marginTop: "40px" }}>
-          <Link to="/map" className="btn btn-light">Go To Map</Link>
+          <Link to="/routes" className="btn btn-light">View Routes!</Link>
         </div>
       </div>
     )

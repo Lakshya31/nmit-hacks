@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom"
 import Navigation from "./Component/Common/Navigation";
 import Dashboard from "./Component/Dashboard/Dashboard"
 import Path from "./Component/Path/Path"
+import Routes from "./Component/Routes/Routes"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "shards-ui/dist/css/shards.min.css"
 
@@ -16,6 +17,7 @@ function App() {
         </div>
         <Route exact path='/' component={Dashboard} />
         <Route exact path='/map' component={Path} />
+        <Route exact path='/routes' component={Routes} />
       </Router>
     </div>
   );

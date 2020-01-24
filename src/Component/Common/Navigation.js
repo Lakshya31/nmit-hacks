@@ -17,6 +17,9 @@ class Navigation extends React.Component {
                                 <li>
                                     <Link to="/map" className="nav-link">Map</Link>
                                 </li>
+                                <li>
+                                    <Link to="/routes" className="nav-link">Routes</Link>
+                                </li>
                             </ul>
                         </div>
                     </div>
