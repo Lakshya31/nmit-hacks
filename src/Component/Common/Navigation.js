@@ -1,29 +1,29 @@
-import React, { Component } from 'react'
-import {Navbar,Nav,NavItem,NavbarBrand,NavbarToggler,Collapse,NavLink,Dropdown,DropdownItem,DropdownMenu,DropdownToggle} from "shards-react"
-export default class Navigation extends Component {
-    render() {
-        return (
-            <div>
-                <Navbar type="dark" theme="primary" expand="md">
-        <NavbarBrand href="/">Bus Scheduler</NavbarBrand>
-        <NavbarToggler onClick={this.toggleNavbar} />
-        <Collapse open={true} navbar>
-          <Nav navbar>
-            <NavItem>
-              <NavLink active href='/path'>
-                Path
-              </NavLink>
-            </NavItem>
-            {/* <NavItem>
-              <NavLink href="#" disabled>
-                Disabled
-              </NavLink>
-            </NavItem> */}
-           
-          </Nav>
-        </Collapse>
-      </Navbar>
+import React from 'react';
+import {Link} from 'react-router-dom';
+import './NavBar.css';
+
+class Navigation extends React.Component{
+
+    render(){
+        return(
+            <div className="container-fluid p-0">
+                <nav className="navbar navbar-expand-lg navbar-dark navnew">
+                    <div className="collapse navbar-collapse">
+                        <div>
+                            <Link to="/" className="navbar-brand p-0">TecRidge</Link>
+                        </div>
+                        <div>
+                            <ul className="navbar-nav navbar-right mr-auto mt-2 mt-lg-0">
+                                <li>
+                                    <Link to="/path" className="nav-link">Map</Link>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
             </div>
-        )
+        );
     }
 }
+
+export default Navigation;
