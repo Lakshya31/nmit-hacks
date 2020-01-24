@@ -41,11 +41,21 @@ def getRoute(rid):
     data=hf.return_full_info(int(rid))
     return jsonify({"result":data})
 
-@app.route("/initiateTraining/<rid>")
-def train(rid):
-    data=hf.scheduler(int(rid))
+@app.route("/genData/<rid>")
+def genData(rid):
+    data=hf.one_route_crowd(int(rid))
     return jsonify({"result":data})
-    
+
+@app.route("/testData",methods=["POST"])
+def testData():
+    print (request.is_json)
+    content = request.get_json()
+    print (content)
     return None
+
+@app.route("/initiateTraining/<rid>/<sid>")
+def train(rid,sid):
+    data=hf.scheduler(int(rid),int(sid))
+    return jsonify({"result":data})
 if __name__ == "__main__":
     app.run()

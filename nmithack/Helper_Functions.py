@@ -24,7 +24,7 @@ def get_sec(time_str):
 #universal crowd set
 crowd_new={}#universal crowd holder
 time_duration=(15)*60#seconds
-
+crowd_serviced=[]
 def generate_crowd(stops,time):
     crowd={}
     for i in range(len(stops)):
@@ -44,47 +44,54 @@ def generate_crowd(stops,time):
     return crowd
 
 def one_route_crowd(spec):
-  end_time=82800
-  current_time=14400
-  _temp=df.loc[spec]['map_json_content']
-  _temp=json.loads(_temp)
-  
-  # _temp=json.loads(_temp)
-  while current_time<=end_time:
-    temp_crowd=generate_crowd(_temp,current_time)
-    #                 for k in temp_crowd:
-                    #adding it per timing
-    crowd_new[current_time] = temp_crowd
-    #                 print(temp_crowd)
-    current_time+=time_duration
+    end_time=82800
+    current_time=14400
+    _temp=df.loc[spec]['map_json_content']
+    _temp=json.loads(_temp)
+      
+      # _temp=json.loads(_temp)
+    while current_time<=end_time:
+        temp_crowd=generate_crowd(_temp,current_time)
+        #                 for k in temp_crowd:
+                        #adding it per timing
+        crowd_new[current_time] = temp_crowd
+        #                 print(temp_crowd)
+        current_time+=time_duration
+    return crowd_new
+    
 
-def scheduler(rid):
-    one_route_crowd(5)
-    dfirst=df.loc[rid]['departure_from_origin'].split(",")[0]
-    afirst=df.loc[rid]['arrival_at_destination'].split(',')[0]
+def scheduler(rid,sid):
+    one_route_crowd(rid)
+    served=[]
+    dfirst=df.loc[rid]['departure_from_origin'].split(",")[sid]
+    afirst=df.loc[rid]['arrival_at_destination'].split(',')[sid]
     dsec=get_sec(dfirst+":00")
     asec=get_sec(afirst+":00")
     print(dsec,asec)
-    dif=(asec-dsec)/len(json.loads(df.loc[5]['map_json_content']))
+    dif=(asec-dsec)/len(json.loads(df.loc[rid]['map_json_content']))
     timetable=[]
     timetable.append(dsec)
-    for i in range(len(json.loads(df.loc[5]['map_json_content']))-2):
+    for i in range(len(json.loads(df.loc[rid]['map_json_content']))-2):
         timetable.append(dsec+((i+1)*dif))
     timetable.append(asec)
     enviro = env(crowd_new)
     agent = Agent(enviro.stops,timetable)
     for i in range(20000):
-      while True:
-        action = agent.decide_action(enviro.state)
-    # print(len(agent.passengers))
-        (done,nextState,(noppl,pass1))=enviro.step(action,agent.capacity,agent.passengers)
-        agent.descending(nextState-1)
-        # print(len(pass1))
-        agent.update_reward(action,nextState-1,noppl)
-        if done:
-          print("done "+str(i))
-          break
-    return agent.time
+        ppl_served=0
+        while True:
+            action = agent.decide_action(enviro.state)
+        # print(len(agent.passengers))
+            (done,nextState,(noppl,pass1))=enviro.step(action,agent.capacity,agent.passengers)
+            ppl_served+=noppl
+            agent.descending(nextState-1)
+            # print(len(pass1))
+            agent.update_reward(action,nextState-1,noppl)
+            if done:
+                if i%1000==0:
+                    print("done"+str(i))
+                break
+        served.append(ppl_served)
+    return {"time":agent.time,"optimise":served}
  
 def return_vague_info():
     result=[]
