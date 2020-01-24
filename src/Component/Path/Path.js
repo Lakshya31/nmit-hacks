@@ -3,7 +3,7 @@ import { StaticMap, Marker } from 'react-map-gl';
 import { PhongMaterial } from '@luma.gl/core';
 import { AmbientLight, MapView, PointLight, LightingEffect } from '@deck.gl/core';
 import DeckGL from '@deck.gl/react';
-import { PolygonLayer } from '@deck.gl/layers';
+// import { PolygonLayer } from '@deck.gl/layers';
 import { TripsLayer, } from '@deck.gl/geo-layers';
 import { HeatmapLayer } from '@deck.gl/aggregation-layers';
 // import fs from "fs"
@@ -282,8 +282,8 @@ export default class Path extends Component {
         <div>
           <img src={BG} alt="Loading BG" className="backgroundimage"></img>
         </div>
-        <div className="row" style={{ width: "100vw" }}>
-          <div className="col-md-9" style={{ height: "80vh", width: "90%", marginTop:"20px", paddingLeft:"10px" }}>
+        <div className="row" style={{ width: "100vw", overflowY: "hidden" }}>
+          <div className="col-md-9" style={{ height: "80vh", width: "90%", marginTop: "20px", paddingLeft: "10px" }}>
             <DeckGL
               layers={this._renderLayers()}
               effects={theme.effects}
@@ -361,12 +361,12 @@ export default class Path extends Component {
                 </div>
               </div>
             </div>
-            <div className="row">
+            <div className="row" style={{ marginTop: "10px" }}>
               <div className="col-md-12" >
                 {this.state.route.length > 0 ? <div>
                   <Card>
-                    <CardBody>
-                      <table class="table" style={{ maxHeight: "20rem", overflowY: "auto" }}>
+                    <CardBody style={{ maxHeight: "20rem", overflowY: "scroll" }}>
+                      <table class="table" style={{ maxWidth: "700px", maxHeight: "20rem", overflowY: "auto" }}>
                         <thead>
                           <tr>
                             <th scope="col">#</th>
