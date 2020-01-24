@@ -5,6 +5,7 @@
   "dependencies": {
     "@urbica/react-map-gl": "^1.12.3",
     "@urbica/react-map-gl-cluster": "^0.2.0",
+    "axios": "^0.19.2",
     "deck.gl": "^7.3.6",
     "luma.gl": "^7.3.2",
     "react": "^16.12.0",

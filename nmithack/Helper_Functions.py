@@ -86,3 +86,30 @@ def scheduler(rid):
           break
     return agent.time
  
+def return_vague_info():
+    result=[]
+    for i in range(len(df)):
+        temp_dict = {}
+        temp_data=df.loc[i]
+        temp_dict["id"]=i
+        temp_dict["distance"]=temp_data['distance']
+        temp_dict["origin"]=temp_data['origin']
+        temp_dict["destination"] = temp_data["destination"]
+        temp_dict["route_no"] = temp_data["route_no"]
+        result.append(temp_dict)
+    return result
+
+def return_full_info(rid):
+    temp_data = df.loc[rid]
+    temp_dict={}
+    temp_dict["id"]=rid
+    temp_dict["distance"]=temp_data['distance']
+    temp_dict["origin"]=temp_data['origin']
+    temp_dict["destination"] = temp_data["destination"]
+    temp_dict["route_no"] = temp_data["route_no"]
+    temp_dict["departure_from_origin"] = temp_data["departure_from_origin"].split(",")
+    temp_dict["departure_from_destination"] = temp_data["departure_from_destination"].split(",")
+    temp_dict["arrival_at_origin"] = temp_data["arrival_at_origin"].split(",")
+    temp_dict["arrival_at_destination"] = temp_data["arrival_at_destination"].split(",")
+    temp_dict["stops"] = json.loads(temp_data["map_json_content"])
+    return temp_dict

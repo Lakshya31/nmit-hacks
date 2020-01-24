@@ -1,10 +1,112 @@
-import React, { Component } from 'react'
-
+import React, { Component } from 'react';
+import axios from "axios";
+import Map from "../MapComp/Map";
+import BG from "../../Images/BG.jpg";
+import {Card,CardBody,CardTitle,CardSubtitle,Badge, CardHeader} from "shards-react"
 export default class Rout extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             data:null
+        }
+    }
+    
+    componentDidMount(){
+        const rid=this.props.match.params.rid;
+        axios.get("http://127.0.0.1:5000/route/"+rid)
+        .then(res=>{
+            this.setState({data:res["data"]["result"]})
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    }
     render() {
+        let view;
+        const {data} = this.state;
+        if(this.state.data){
+            const newDat = this.state.data.stops.map(obj=>{
+                return {
+                    latitude:obj.latlons[0],
+                    longitude:obj.latlons[1],
+                    city:obj.busstop
+                }
+            })
+            
+            view=<div> 
+                        <div className="row"> 
+                    <div className="col-md-6">
+                    <Card>
+                        <CardBody>
+        <CardTitle>Route {data.route_no}</CardTitle>
+        <CardSubtitle>Path Taken</CardSubtitle>
+        <Badge theme="success">{data.origin}</Badge> - <Badge theme="danger">{data.destination}</Badge>
+        <div style={{maxHeight:"200px",overflowY:"scroll"}}>
+        {
+            data.stops.map((obj,i)=>{
+            return <Badge theme="info">{obj.busstop}</Badge>
+            })
+        }
+        </div>
+        </CardBody>
+        </Card>           >
+                    </div> 
+                    <div className="col-md-6">
+                    <Map stops={newDat} />
+                    </div>
+                    </div>
+                        
+                <div className="row">
+                    <div className="col-md-4">
+                        <Card>
+                            <CardHeader> <CardSubtitle> <Badge theme="success">{data.origin}</Badge> - > <Badge theme="danger">{data.destination}</Badge>
+</CardSubtitle></CardHeader>
+                            <CardBody>
+                               
+                            <div style={{maxHeight:"150px",overflowY:"scroll"}}>
+                                {
+                                    data.departure_from_origin.map((obj,i)=>{
+                                        return <div><Badge theme="success">{obj}
+                                    </Badge>     -     <Badge theme="danger">{data.arrival_at_destination[i]}</Badge></div>
+                                    })
+                                }
+                            </div>
+                            </CardBody>
+                        </Card>
+                    </div>
+                    <div className="col-md-4">
+                    <Card>
+                            <CardHeader> 
+                                <CardSubtitle> 
+                                <Badge theme="danger">{data.destination}</Badge> - > <Badge theme="success">{data.origin}</Badge>
+                                </CardSubtitle>
+                                </CardHeader>
+                            <CardBody>
+                            <div style={{maxHeight:"150px",overflowY:"scroll"}}>
+                                {
+                                    data.departure_from_destination.map((obj,i)=>{
+                                        return <div><Badge theme="success">{obj}
+                                    </Badge>     -     <Badge theme="danger">{data.arrival_at_origin[i]}</Badge></div>
+                                    })
+                                }
+                            </div>
+                            </CardBody>
+                        </Card>
+                    </div>
+                    <div className="col-md-4">
+                    </div>
+                </div>
+                </div>
+        }else{
+            view=<div class="spinner-grow text-warning"></div>
+        }
         return (
             <div>
-                Route Component
+        <div>
+          <img src={BG} alt="Loading BG" className="backgroundimage"></img>
+        </div>
+                {view}
             </div>
         )
     }

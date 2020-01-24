@@ -31,6 +31,16 @@ def addData():
 def main(idnum):
     return None
 
+@app.route("/routes")
+def getRoutes():
+    data=hf.return_vague_info()
+    return jsonify({"result":data})
+
+@app.route("/route/<rid>")
+def getRoute(rid):
+    data=hf.return_full_info(int(rid))
+    return jsonify({"result":data})
+
 @app.route("/initiateTraining/<rid>")
 def train(rid):
     data=hf.scheduler(int(rid))
