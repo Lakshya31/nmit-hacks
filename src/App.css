@@ -59,6 +59,26 @@
   font-family: audiowide;
 }
 
-.Card{
-  
+.Cards{
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-height: 78vh;
+  overflow-y: auto;
+}
+
+.CardText{
+  font-size: 15px;
+  font-weight: bold;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.CardItself:hover{
+  scale:1.2;
+}
+
+.SearchBox{
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
