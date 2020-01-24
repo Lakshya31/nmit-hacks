@@ -35,8 +35,9 @@ export default class Routes extends Component {
             })
             this.setState({ Routes: Temp })
         }
-        this.setState({ Routes: this.state.AllRoutes })
-
+        else {
+            this.setState({ Routes: this.state.AllRoutes })
+        }
     }
 
     SearchChange = (event) => {
@@ -63,19 +64,31 @@ export default class Routes extends Component {
     }
 
     render() {
+        if (this.state.Routes === []) {
+            return (
+                <div>
+                    <div>
+                        <img src={BG} alt="Loading BG" className="backgroundimage"></img>
+                    </div>
+                    <div style={{ margin: "auto" }}>
+                        <h1 className="Heading">Loading...</h1>
+                    </div>
+                </div>
 
+            )
+        }
         return (
             <div>
                 <div>
                     <img src={BG} alt="Loading BG" className="backgroundimage"></img>
                 </div>
                 <div>
-                    <input autoComplete="off" className="SearchBox" onChange={this.SearchChange} placeholder="Search Route Name" />
+                    <input autoComplete="off" className="SearchBox" onChange={this.SearchChange} placeholder="Search Route..." />
                 </div>
                 <div className="Cards">
                     {
                         this.state.Routes.map(route => {
-                            return <Link to={`/route/${route.id}`}>
+                            return <Link key={route.id} to={`/route/${route.id}`}>
                                 <Card className="CardItself z-depth-5" key={route.id} style={{ height: "187px", width: '18rem', display: "inline-block", margin: "20px" }}>
                                     <Card.Body>
 

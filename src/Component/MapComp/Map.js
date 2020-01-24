@@ -1,7 +1,7 @@
 
-import React, {Component} from 'react';
-import {render} from 'react-dom';
-import MapGL, {Popup, NavigationControl, FullscreenControl, ScaleControl, Marker} from 'react-map-gl';
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+import MapGL, { Popup, NavigationControl, FullscreenControl, ScaleControl, Marker } from 'react-map-gl';
 
 import ControlPanel from './support/ControlPanel';
 import Pins from './support/Pin';
@@ -37,27 +37,27 @@ export default class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        viewport: {
-            width: 500, 
-            height: 300,
-            latitude: 12.9716,
-            longitude: 77.5946,
-            zoom: 13
-          },
+      viewport: {
+        width: 500,
+        height: 300,
+        latitude: 12.9716,
+        longitude: 77.5946,
+        zoom: 10
+      },
       popupInfo: null
     };
   }
 
   _updateViewport = viewport => {
-    this.setState({viewport});
+    this.setState({ viewport });
   };
 
   _onClickMarker = city => {
-    this.setState({popupInfo: city});
+    this.setState({ popupInfo: city });
   };
 
   _renderPopup() {
-    const {popupInfo} = this.state;
+    const { popupInfo } = this.state;
 
     return (
       popupInfo && (
@@ -67,7 +67,7 @@ export default class Map extends Component {
           longitude={popupInfo.longitude}
           latitude={popupInfo.latitude}
           closeOnClick={false}
-          onClose={() => this.setState({popupInfo: null})}
+          onClose={() => this.setState({ popupInfo: null })}
         >
           <CityInfo info={popupInfo} />
         </Popup>
@@ -76,12 +76,12 @@ export default class Map extends Component {
   }
 
   render() {
-    const {viewport} = this.state;
+    const { viewport } = this.state;
     const points = this.props.stops;
-    let view = points.map((obj,i)=>{
-        return <Marker key={i} latitude={parseFloat(obj.latitude)} longitude={parseFloat(obj.longitude)}>
-            <StopPin size={20} />
-            </Marker>
+    let view = points.map((obj, i) => {
+      return <Marker key={i} latitude={parseFloat(obj.latitude)} longitude={parseFloat(obj.longitude)}>
+        <StopPin size={20} />
+      </Marker>
     })
     return (
       <MapGL
@@ -89,7 +89,7 @@ export default class Map extends Component {
         mapStyle="mapbox://styles/mapbox/streets-v11"
         onViewportChange={this._updateViewport}
         mapboxApiAccessToken={"pk.eyJ1IjoibmFtYmlhcnNpZGhhcnRoIiwiYSI6ImNrM2VsdjBsdTExOXAzbnVpcmhwanMyN3kifQ.QSt6sbifkuzfUdSz6YLoww"}
-        >
+      >
 
         {/* <Pins data={points} onClick={this._onClickMarker} /> */}
 
@@ -104,7 +104,7 @@ export default class Map extends Component {
         <div style={scaleControlStyle}>
           <ScaleControl />
         </div> */}
-    {view}
+        {view}
         {/* <ControlPanel containerComponent={this.props.containerComponent} /> */}
       </MapGL>
     );
