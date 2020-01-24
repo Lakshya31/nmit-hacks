@@ -6,6 +6,7 @@ import Dashboard from "./Component/Dashboard/Dashboard"
 import Path from "./Component/Path/Path"
 import Rout from "./Component/Route/Rout"
 import Routes from "./Component/Routes/Routes"
+import Optimise from "./Component/Optimise/Optimise"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "shards-ui/dist/css/shards.min.css"
 
@@ -20,6 +21,7 @@ function App() {
         <Route exact path='/map' component={Path} />
         <Route exact path='/route/:rid' component={Rout} />
         <Route exact path='/routes' component={Routes} />
+        <Route exact path="/optimise/:rid" component={Optimise} />
       </Router>
     </div>
   );

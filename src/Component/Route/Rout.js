@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from "axios";
 import Map from "../MapComp/Map";
 import BG from "../../Images/BG.jpg";
+import {Link} from "react-router-dom"
 import {Card,CardBody,CardTitle,CardSubtitle,Badge, CardHeader} from "shards-react"
 export default class Rout extends Component {
     constructor(props) {
@@ -95,6 +96,7 @@ export default class Rout extends Component {
                         </Card>
                     </div>
                     <div className="col-md-4">
+                        <Link to={`/optimise/${this.props.match.params.rid}`} className="btn btn-primary">Optimise</Link>
                     </div>
                 </div>
                 </div>

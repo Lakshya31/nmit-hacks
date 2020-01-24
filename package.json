@@ -4,13 +4,11 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.9.0",
+    "@material-ui/lab": "^4.0.0-alpha.40",
     "@urbica/react-map-gl": "^1.12.3",
     "@urbica/react-map-gl-cluster": "^0.2.0",
-<<<<<<< HEAD
     "axios": "^0.19.2",
-=======
     "bootstrap": "^4.4.1",
->>>>>>> 376fd16209eade63e0c84f8afd00bc017762381f
     "deck.gl": "^7.3.6",
     "luma.gl": "^7.3.2",
     "mdbreact": "^4.25.0",
