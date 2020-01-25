@@ -48,11 +48,11 @@ class Optimise extends Component {
             data: null,
             crowdPresent: null,
             crowdData: null,
-            timePresent:null,
-            timeData:null,
-            testData:null,
-            testPresent:null,
-            selectedSid:null
+            timePresent: null,
+            timeData: null,
+            testData: null,
+            testPresent: null,
+            selectedSid: null
         }
         this.onGenerateData = this.onGenerateData.bind(this)
     }
@@ -77,52 +77,52 @@ class Optimise extends Component {
                 console.log(err)
             })
     }
-    onRunRL(sid){
-        this.setState({timePresent:true,selectedSid:sid})
+    onRunRL(sid) {
+        this.setState({ timePresent: true, selectedSid: sid })
         const rid = this.props.match.params.rid;
-        console.log(sid,rid)
-        axios.get("http://127.0.0.1:5000/initiateTraining/"+rid+"/"+sid)
-        .then(obj=>{
-            this.setState({timeData:obj['data']['result'],timePresent:false})
-        })
-        .catch(err=>{
-            console.log(err)
-        })
+        console.log(sid, rid)
+        axios.get("http://127.0.0.1:5000/initiateTraining/" + rid + "/" + sid)
+            .then(obj => {
+                this.setState({ timeData: obj['data']['result'], timePresent: false })
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
-    onTest(sid){
-        this.setState({testPresent:true})
+    onTest(sid) {
+        this.setState({ testPresent: true })
         const rid = this.props.match.params.rid;
-        const sendDat={
-            time:this.state.timeData.time,
-            rid:rid,
-            sid:this.state.selectedSid
+        const sendDat = {
+            time: this.state.timeData.time,
+            rid: rid,
+            sid: this.state.selectedSid
         }
-        axios.post("http://127.0.0.1:5000/testData",sendDat)
-        .then(obj=>{
-            console.log(obj)
-            this.setState({testData:obj['data']['result'],testPresent:false})
-        })
-        .catch(err=>{
-            console.log(err)
-        })
+        axios.post("http://127.0.0.1:5000/testData", sendDat)
+            .then(obj => {
+                console.log(obj)
+                this.setState({ testData: obj['data']['result'], testPresent: false })
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
     render() {
         const { classes } = this.props;
         const bull = <span className={classes.bullet}>•</span>;
-        let view,timeView;
+        let view, timeView;
         let dataView
-        let succssrate=0.0
-        let avg_rate=0
-        if(this.state.testData){
-            let temp=0
-            this.state.testData.new.forEach((obj,i)=>{
-                if(obj>this.state.testData.original[i]){
-                    avg_rate+=obj-this.state.testData.original[i]
-                    temp+=1;
+        let succssrate = 0.0
+        let avg_rate = 0
+        if (this.state.testData) {
+            let temp = 0
+            this.state.testData.new.forEach((obj, i) => {
+                if (obj > this.state.testData.original[i]) {
+                    avg_rate += obj - this.state.testData.original[i]
+                    temp += 1;
                 }
             })
-            succssrate=((temp*100)/this.state.testData.original.length)
-            avg_rate=avg_rate/temp;
+            succssrate = ((temp * 100) / this.state.testData.original.length)
+            avg_rate = avg_rate / temp;
         }
         if (this.state.data) {
             view = <div style={{ marginTop: "40px" }}>
@@ -134,7 +134,7 @@ class Optimise extends Component {
                                     <Typography variant="h5" component="h2">
                                         Generate Dataset
                                     </Typography>
-                                    <Button onClick={this.onGenerateData} size="small">Generate Crowd Data</Button>
+                                    <Button onClick={this.onGenerateData} className="btn btn-primary" size="small">Generate Crowd Data</Button>
                                 </div>
                                 <div className="col-md-6">
                                     {
@@ -148,7 +148,7 @@ class Optimise extends Component {
       </CardActions> */}
                     </Card>
                 </div>
-                <div style={{ margin: "40px 20px", width: "40vw" }}>
+                <div style={{ margin: "auto", marginTop: "40px", width: "40vw" }}>
                     <TableContainer component={Paper} style={{ maxHeight: "60vh", overflowY: "scroll" }}>
                         <Table className={classes.table} aria-label="simple table">
                             <TableHead>
@@ -164,7 +164,7 @@ class Optimise extends Component {
                                         return <TableRow key={i}>
                                             <TableCell>{o}</TableCell>
                                             <TableCell>{this.state.data.arrival_at_destination[i]}</TableCell>
-                                            <TableCell className="btn btn-primary m-3" onClick={this.onRunRL.bind(this,i)}>Run RL on this Interval</TableCell>
+                                            <TableCell className="btn btn-primary m-3" onClick={this.onRunRL.bind(this, i)}>Run RL on this Interval</TableCell>
                                         </TableRow>
                                     })
                                 }
@@ -174,47 +174,51 @@ class Optimise extends Component {
                 </div>
                 <div>
                     {
-                        this.state.timeData?<div>
-                            <Alert severity="success">RL run finished!</Alert>
-                            <TableContainer component={Paper} style={{ maxHeight: "60vh", overflowY: "scroll" }}>
-                        <Table className={classes.table} aria-label="simple table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Original Timings</TableCell>
-                                    <TableCell>Rescheduled timings</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {
-                                    this.state.timeData.original.map((o, i) => {
-                                        return <TableRow key={i}>
-                                            <TableCell>{new Date(o * 1000).toISOString().substr(11, 8)}</TableCell>
-                                            <TableCell>{new Date(this.state.timeData.time[i] * 1000).toISOString().substr(11, 8)}</TableCell>
-                                            {/* <TableCell className="btn btn-primary m-3" onClick={this.onRunRL.bind(this,i)}>Run RL on this Interval</TableCell> */}
-                                        </TableRow>
-                                    })
-                                }
-                                <Button theme="info" onClick={this.onTest.bind(this)}>
-                                    Test the time
-                                </Button>
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                        </div>:this.state.timePresent?<Alert severity="warning">RL Agent Running,  Please Wait for a while</Alert>:null
+                        this.state.timeData ?
+                            <div>
+                                <Alert severity="success">RL run finished!</Alert>
+                                <div style={{ margin: "auto", marginTop: "40px", width: "40vw" }}>
+                                    <TableContainer component={Paper} style={{ maxHeight: "60vh", overflowY: "scroll" }}>
+                                        <Table className={classes.table} aria-label="simple table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Original Timings</TableCell>
+                                                    <TableCell>Rescheduled timings</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {
+                                                    this.state.timeData ?
+                                                        this.state.timeData.original.map((o, i) => {
+                                                            return <TableRow key={i}>
+                                                                <TableCell>{new Date(o * 1000).toISOString().substr(11, 8)}</TableCell>
+                                                                <TableCell>{new Date(this.state.timeData.time[i] * 1000).toISOString().substr(11, 8)}</TableCell>
+                                                                {/* <TableCell className="btn btn-primary m-3" onClick={this.onRunRL.bind(this,i)}>Run RL on this Interval</TableCell> */}
+                                                            </TableRow>
+                                                        }) : null
+                                                }
+                                                <Button theme="info" onClick={this.onTest.bind(this)}>
+                                                    Test the time
+                                        </Button>
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </div>
+                            </div> : this.state.timePresent ? <Alert severity="warning">RL Agent Running,  Please Wait for a while</Alert> : null
                     }
                 </div>
                 <div>
-                    {this.state.testData?<div>
-                    <Alert severity="success">Testing Done</Alert>
-                    <div>
-                    <h5>{succssrate?succssrate:null}</h5>
-                    <h5>{avg_rate}</h5>
-                    </div>
-                    </div>:this.state.testPresent?<Alert severity="warning">Testing Under process</Alert>:null
-                    
-                }
+                    {this.state.testData ? <div>
+                        <Alert severity="success">Testing Done</Alert>
+                        <div>
+                            <h5>{succssrate ? succssrate : null}</h5>
+                            <h5>{avg_rate}</h5>
+                        </div>
+                    </div> : this.state.testPresent ? <Alert severity="warning">Testing Under process</Alert> : null
+
+                    }
                 </div>
-               
+
             </div>
         } else {
             view = <div class="spinner-grow text-warning"></div>
@@ -224,7 +228,7 @@ class Optimise extends Component {
                 <div>
                     <img src={BG} alt="Loading BG" className="backgroundimage"></img>
                 </div>
-                {view}
+                <div style={{ maxHeight: "85vh", overflowY: "auto" }}>{view}</div>
             </div>
         )
     }
