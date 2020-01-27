@@ -117,7 +117,7 @@ class Optimise extends Component {
             let temp = 0
             this.state.testData.new.forEach((obj, i) => {
                 if (obj > this.state.testData.original[i]) {
-                    avg_rate += obj - this.state.testData.original[i]
+                    avg_rate += (obj - this.state.testData.original[i])/this.state.testData.original[i]
                     temp += 1;
                 }
             })
@@ -128,7 +128,7 @@ class Optimise extends Component {
             view = <div style={{ marginTop: "40px" }}>
                 <div>
                     <Card className={classes.card}>
-                        <CardContent>
+                        <CardContent> 
                             <div className="row">
                                 <div className="col-md-6">
                                     <Typography variant="h5" component="h2">
@@ -148,7 +148,7 @@ class Optimise extends Component {
       </CardActions> */}
                     </Card>
                 </div>
-                <div style={{ margin: "auto", marginTop: "40px", width: "40vw" }}>
+                <div style={{ margin: "auto", marginTop: "40px", width: "40vw",marginBottom:"40px" }}>
                     <TableContainer component={Paper} style={{ maxHeight: "60vh", overflowY: "scroll" }}>
                         <Table className={classes.table} aria-label="simple table">
                             <TableHead>
@@ -177,7 +177,7 @@ class Optimise extends Component {
                         this.state.timeData ?
                             <div>
                                 <Alert severity="success">RL run finished!</Alert>
-                                <div style={{ margin: "auto", marginTop: "40px", width: "40vw" }}>
+                                <div style={{ margin: "auto", marginTop: "40px", width: "40vw",marginBottom:"40px" }}>
                                     <TableContainer component={Paper} style={{ maxHeight: "60vh", overflowY: "scroll" }}>
                                         <Table className={classes.table} aria-label="simple table">
                                             <TableHead>
@@ -211,8 +211,12 @@ class Optimise extends Component {
                     {this.state.testData ? <div>
                         <Alert severity="success">Testing Done</Alert>
                         <div>
-                            <h5>{succssrate ? succssrate : null}</h5>
-                            <h5>{avg_rate}</h5>
+                            <Card>
+                                <CardContent>
+                            <h5>Rate of profitable runs : {succssrate ? succssrate : null}</h5>
+                            <h5>Average Increase in passenger count : {avg_rate}</h5>
+                            </CardContent>
+                            </Card>
                         </div>
                     </div> : this.state.testPresent ? <Alert severity="warning">Testing Under process</Alert> : null
 
