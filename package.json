@@ -7,7 +7,7 @@
     "@material-ui/lab": "^4.0.0-alpha.40",
     "@urbica/react-map-gl": "^1.12.3",
     "@urbica/react-map-gl-cluster": "^0.2.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap": "^4.4.1",
     "deck.gl": "^7.3.6",
     "luma.gl": "^7.3.2",
